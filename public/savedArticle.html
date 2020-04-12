@@ -50,18 +50,43 @@
 
       <!--Card-->
       <br>
+      <div id='info'></div>
 
-      <div class="card">
+      <!-- <div class="card">
         <a href="#"><h5 class="card-header" id="cardHeader">Article Title</h5></a>
         <div class="card-body">
           <h5 class="card-title">Summary</h5>
           <p class="card-text" id="summary">With supporting text below as a natural lead-in to additional content.</p>
           <a href="#" class="btn btn-primary"><h6>Save Article</h6></a>
         </div>
+      </div> -->
+
+      <!--Modal-->
+      <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-success">
+              <h5 class="modal-title text-white" id="exampleModalLabel"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h5>Note</h5><br><textarea id='bodyInput' rows="6" style="width: 100%;" name='body'></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button"id="saveNote"  class="btn btn-primary">Save Note</button>
+              <button type="button" id="deleteNote" class="btn btn-danger">Delete Note</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!--Browser Card-->
       <br>
+
+      
       
       <div class="card">
         <h4 class="card-header text-center" id="cardHeader">Would You Like to Browse Available Articles?</h4>
@@ -84,11 +109,8 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
+     <!--JQuery-->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -101,6 +123,6 @@
     ></script>
 
     <!--link to app.js-->
-    <script src="app.js"></script>
+    <script src="saved.js"></script>
   </body>
 </html>
