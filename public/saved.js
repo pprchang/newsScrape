@@ -9,7 +9,7 @@ function renderArticles(data) {
     <h5 class="card-title">Summary</h5>
     <p class="card-text" id="summary">${data[i].summary}</p>
     <button class="btn btn-danger deleteBtn" data-id="${data[i]._id}"><h6>Delete Article</h6></button>
-    <button class="btn btn-warning noteBtn ml-2" data-id="${data[i]._id}" data-toggle='modal' data-target='#noteModal'><h6>Note</h6></button>
+    <button class="btn btn-warning noteBtn ml-2" data-id="${data[i]._id}" data-toggle='modal' data-target='#myModal'><h6>Note</h6></button>
     
   </div>
 </div>
@@ -31,7 +31,7 @@ function loadArticles() {
 //load current article in db
 loadArticles();
 
-//when delete button is clicked
+//when delete button is clicked === deleting article
 $(document).on('click', '.deleteBtn', function () {
   let id = $(this).attr('data-id');
   $.ajax({
@@ -41,67 +41,6 @@ $(document).on('click', '.deleteBtn', function () {
     console.log(data);
     loadArticles();
   });
-});
-
-//note button is clicked
-$(document).on('click', '.noteBtn', function () {
-  $('.modal-title').empty();
-  $('.input').empty();
-  let id = $(this).attr('data-id');
-
-  $.ajax({
-    method: 'GET',
-    url: '/articles/' + id,
-  }).then((data) => {
-    console.log(data);
-
-    $('.modal-title').append(`${data.title}`);
-    $('#saveNote').attr(`data-id="${data._id}"`);
-    $('#deleteNote').attr(`data-id="${data._id}"`);
-
-    //   $('#noteModal').append(`
-    //   <div class="modal-dialog">
-    //   <div class="modal-content">
-    //     <div class="modal-header bg-success">
-    //       <div class="modal-title "><h5 class="text-white">${data.title}</h5></div>
-    //     </div>
-    //     <div class="modal-body">
-    //       <p id="note"><h5>Note<h5></p>
-    //       <div class="input">
-    //       <textarea id="bodyInput" name="body" style="width: 100%;"></textarea>
-    //       </div>
-    //       <button data-id="${data._id}" id="saveNote" class="btn btn-success mt-2">Save Note</button>
-    //     </div>
-    //   </div>
-    // </div>`);
-
-    // $('.modal-title').append('<h5>' + data[i].title + '</h5>');
-    // $('.input').append("<textarea id='bodyinput' name='body'></textarea>");
-    // $('.input').append(
-    //   "<button data-id='" +
-    //     data._id +
-    //     "' id='savenote' class='btn btn-primary btn-sm' style='margin-top:20px;'data-dismiss='modal'>Save Note</button>"
-    // );
-
-    // If there's a note in the article
-    if (data.note) {
-      // Place the body of the note in the body textarea
-      $('#bodyInput').val(data.note.body);
-    }
-  });
-});
-
-//save note button is clicked
-$(document).on('click', '#saveNote', function () {
-  let id = $(this).attr('data-id');
-  $.ajax({
-    method: 'POST',
-    url: '/articles/' + id,
-    data: { body: $('#bodyInput').val() },
-  }).then(function (data) {
-    console.log(data);
-  });
-  $('#bodyInput').val('');
 });
 
 //clear button is clicked
@@ -115,13 +54,72 @@ $('#clear').on('click', () => {
   });
 });
 
-//when delete button is clicked
-$('#deleteNote').on('click', function () {
+$(document).on('click', '.noteBtn', function () {
+  $('.modal-title').empty();
+  $('.input').empty();
+
+  // Save the id from .btn-note
+  var thisId = $(this).attr('data-id');
+
+  $.ajax({
+    method: 'GET',
+    url: '/articles/' + thisId,
+  })
+    // With that done, add the note information to the page
+    .done(function (data) {
+      console.log(data);
+
+      $('.modal-title').append(`<h5>${data.title}</h5>`);
+      $('.input').append(`
+      <textarea id='bodyinput' name='body' rows='6' style='width:100%'></textarea>
+      <button data-id="${data._id}" id="saveNote" class='btn btn-primary '>Save Note</button><button data-id="${data._id}" id="deleteNote" class='btn btn-danger ml-2 '>Delete Note</button><button class='btn btn-dark ml-2' data-dismiss="modal">Close</button>
+      `);
+
+      // If there's a note in the article
+      if (data.note) {
+        // Place the body of the note in the body textarea
+        $('#bodyinput').val(data.note.body);
+      }
+    });
+});
+
+// When you click the Save Note button
+$(document).on('click', '#saveNote', function () {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr('data-id');
+  // console.log(thisId);
+
+  // Run a POST request to change the note, using what's entered in the inputs
+  $.ajax({
+    method: 'POST',
+    url: '/articles/' + thisId,
+    data: {
+      // Value taken from note textarea
+      body: $('#bodyinput').val(),
+    },
+  }).done(function (data) {
+    // Log the response
+    console.log(data);
+    // Empty the notes section
+    // $("#bodyinput").empty();
+  });
+
+  // Remove the values entered in the input and textarea for note entry
+  // $('#bodyinput').val('');
+});
+
+//when delete button is clicked ==deleting note
+$(document).on('click', '#deleteNote', function () {
   let id = $(this).attr('data-id');
+
   $.ajax({
     method: 'GET',
     url: '/deleteNote/' + id,
-  }).done((data) => {
+  }).then((data) => {
     console.log(data);
+    $('#bodyinput').empty();
   });
+  alert("Please click 'Save Note' before closing");
+
+  $('#bodyinput').val('');
 });

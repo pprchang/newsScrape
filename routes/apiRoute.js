@@ -124,10 +124,12 @@ module.exports = function (app) {
 
   //Rout for deleting/updating is saved article
   app.get('/deleteNote/:id', (req, res) => {
-    db.Note.findByIdAndDelete({ _id: req.params.id })
-
-      .then((dbArticle) => res.json(dbArticle))
-      .catch((err) => res.json(err));
+    db.Note.findOneAndRemove({ _id: req.params.id })
+      .then(function (deleteNote) {
+        console.log('note deleted');
+        console.log(deleteNote);
+      })
+      .catch((err) => console.log(err));
   });
 
   //export div
