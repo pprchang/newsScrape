@@ -15,12 +15,16 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+     <!--Css-->
+     <link rel="stylesheet" href="./css/index.css"/>
 
     <title>Yahoo Scrape</title>
   </head>
-  <body>
+
+
+  <body class="bg-dark" >
     <!--Title-->
-    <div class="jumbotron jumbotron-fluid">
+    <div id="index" class="jumbotron jumbotron-fluid">
       <div class="container text-center">
         <h1 class="display-3 font-weight-bold">Yahoo Scraper</h1>
         <p class="lead"><h3>News From Yahoo.com</h3></p>
@@ -51,20 +55,17 @@
         </div>
       </nav>
 
-      <!--Card-->
+      <!--Article Section-->
       <br>
-
+      <div id="scrape" class="container bg-danger text-white text-center p-3 rounded"></div>
+      <br>
       <div id="info"></div>
-
       <br>
 
       <!--Footer-->
       <footer class="text-center text-white bg-dark p-3">
           <h5>Copyright &copy; 2020</h5>
       </footer>
-
-
-
 
 
     <!-- Optional JavaScript -->

@@ -15,7 +15,6 @@ module.exports = function (app) {
       const $ = cheerio.load(response.data);
       let results = {};
 
-      // Now, we grab every h2 within an article tag, and do the following:
       $('li.stream-item').each((i, element) => {
         const link = $(element).find('a').attr('href');
         const title = $(element).find('span').text().trim();
@@ -41,15 +40,11 @@ module.exports = function (app) {
             console.log(err);
           });
       });
-
-      // Send a message to the client
-      // res.send(db.Article);
     });
   });
 
   // Route for getting all Articles from the db
   app.get('/articles', (req, res) => {
-    // TODO: Finish the route so it grabs all of the articles
     db.Article.find()
       .sort({ dateCreated: -1 })
       .limit(5)
@@ -57,7 +52,7 @@ module.exports = function (app) {
       .catch((err) => res.json(err));
   });
 
-  //Route for saving/updating article to be saved
+  //Route for saving article
   app.put('/saved/:id', (req, res) => {
     db.Article.findByIdAndUpdate(
       { _id: req.params.id },
@@ -74,7 +69,7 @@ module.exports = function (app) {
       .catch((err) => res.json(err));
   });
 
-  //Rout for deleting/updating is saved article
+  //Rout for deleting saved articles
   app.put('/delete/:id', (req, res) => {
     db.Article.findByIdAndUpdate(
       { _id: req.params.id },
@@ -100,7 +95,7 @@ module.exports = function (app) {
       .catch((err) => res.json(err));
   });
 
-  //Route for saving/update an Article's associated Note
+  //Route for saving an Article's associated Note
   app.get('/articles/:id', (req, res) => {
     db.Article.findOne({ _id: req.params.id })
       .populate('note')
@@ -108,7 +103,7 @@ module.exports = function (app) {
       .catch((err) => res.json(err));
   });
 
-  //route for saving/updating note
+  //route for creating note
   app.post('/articles/:id', (req, res) => {
     db.Note.create(req.body)
       .then((dbNote) => {
@@ -122,7 +117,7 @@ module.exports = function (app) {
       .catch((err) => res.json(err));
   });
 
-  //Rout for deleting/updating is saved article
+  //Rout for deleting saved article notes
   app.get('/deleteNote/:id', (req, res) => {
     db.Note.findOneAndRemove({ _id: req.params.id })
       .then(function (deleteNote) {

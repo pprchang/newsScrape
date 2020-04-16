@@ -15,12 +15,15 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+     <!--Css-->
+     <link rel="stylesheet" href="./css/index.css"/>
 
     <title>Saved Articles</title>
   </head>
-  <body>
+
+  <body class="bg-dark">
     <!--Title-->
-    <div class="jumbotron jumbotron-fluid">
+    <div id="saved" class="jumbotron jumbotron-fluid">
       <div class="container text-center">
         <h1 class="display-3 font-weight-bold">Saved Articles</h1>
         <p class="lead"><h3>Your Saved Articles</h3></p>
@@ -48,8 +51,10 @@
         </div>
       </nav>
 
-      <!--Card-->
+      <!--Article Section-->
+  
       <br>
+      
       <div id='info'></div>
 
      
@@ -63,9 +68,12 @@
           </div>
           <div class="modal-body">
             <h5 id="note">Notes</h5>
+            <div id="oldNote"></div>
             <div class="input"></div>
+           
+            
           </div>
-        
+          
         </div>
       </div>
     </div>

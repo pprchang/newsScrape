@@ -1,7 +1,5 @@
-//Grab the articles as a json
-
+//function to render article
 function renderArticles(data) {
-  // const infoDiv = $('#info');
   $('#info').empty();
 
   for (let i = 0; i < data.length; i++) {
@@ -18,45 +16,71 @@ function renderArticles(data) {
   }
 }
 
+//function to load article onto page
 function loadArticles() {
   $.ajax({
     method: 'GET',
     url: '/articles',
-  }).done((data) => {
-    console.log(data);
-    renderArticles(data);
-  });
+  })
+    .then((data) => {
+      console.log(data);
+      renderArticles(data);
+    })
+    .catch(function (err) {
+      // If an error occurred, log it
+      console.log(err);
+    });
 }
 
+//show scrape dive with message "click scrape new articles button"
+$('#scrape').append(
+  `<h5>Click "Scrape New Articles" button to get the lastest news</h5>`
+);
 //load current article in db
 loadArticles();
 
 //scrape new article
 $('#newScrape').on('click', () => {
+  $('#scrape').hide();
   $.ajax({
     method: 'Get',
     url: '/scrape',
-  }).done((data) => loadArticles(data));
+  })
+    .then((data) => loadArticles(data))
+    .catch(function (err) {
+      // If an error occurred, log it
+      console.log(err);
+    });
 });
 
-//click on save article buton
-
+//click on save article button --save article
 $(document).on('click', '.saveBtn', function () {
   const id = $(this).attr('data-id');
 
   $.ajax({
     method: 'Put',
     url: '/saved/' + id,
-  }).done((data) => console.log(data));
+  })
+    .then((data) => console.log(data))
+    .catch(function (err) {
+      // If an error occurred, log it
+      console.log(err);
+    });
 });
 
-//clear button is clicked
+//clear button is clicked -- clear all article in the info div
 $('#clear').on('click', () => {
   $.ajax({
     method: 'GET',
     url: '/clearArticle',
-  }).done((data) => {
-    console.log(data);
-    $('#info').empty();
-  });
+  })
+    .then((data) => {
+      console.log(data);
+      $('#info').empty();
+    })
+    .catch(function (err) {
+      // If an error occurred, log it
+      console.log(err);
+    });
+  $('#scrape').show();
 });
